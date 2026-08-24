@@ -51,8 +51,12 @@ jobs:
       - name: Build
         run: npm run docs:build
 
+      # enablement: true — 저장소 공개/비공개를 전환하면 Pages 설정이 초기화된다.
+      # 그때마다 사람이 다시 켜게 두면 배포가 조용히 멈추므로 워크플로가 스스로 켠다.
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

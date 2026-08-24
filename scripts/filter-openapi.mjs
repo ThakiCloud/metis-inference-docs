@@ -19,6 +19,9 @@ const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch', 'head', 'options'
 /** 제외할 태그 접두사. 큐는 이 문서의 범위가 아니다(사용자 확정 2026-08-25). */
 const EXCLUDED_TAG_PREFIXES = ['Kueue']
 
+/** 뷰어에 표시할 서버 호스트. 실 호스트를 넣지 않는다 — 공개 문서다. */
+const PLACEHOLDER_HOST = 'your-console-host'
+
 const argv = process.argv.slice(2)
 if (argv.length === 0 || argv[0].startsWith('--')) {
   console.error('usage: node scripts/filter-openapi.mjs <source.json> [--out <path>] [--expect N]')
@@ -107,16 +110,18 @@ const emptyTags = (spec.tags ?? [])
   .filter((t) => !isExcluded(t.name) && !usedTags.has(t.name))
   .map((t) => t.name)
 
+// 호스트는 플레이스홀더로 고정한다.
+// 원본은 `localhost:3000` 이고, 지우면 뷰어가 문서 사이트 도메인을 서버로 잡아
+// "여기로 API 를 호출하면 된다"고 읽히게 된다. 둘 다 틀린 안내라서, 독자가
+// 자기 환경 주소로 바꿔야 한다는 게 드러나는 값을 넣는다.
 const out = {
   ...spec,
-  host: undefined,
-  schemes: undefined,
+  host: PLACEHOLDER_HOST,
+  schemes: ['https'],
   paths,
   definitions,
   tags: declaredTags,
 }
-delete out.host
-delete out.schemes
 
 // ── 3.5 참조 무결성 ──────────────────────────────────────────────────
 // 정의를 쳐낸 뒤 참조만 남아 있으면 뷰어가 조용히 빈 스키마를 그린다.

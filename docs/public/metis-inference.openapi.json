@@ -8948,6 +8948,7 @@
       }
     }
   },
+  "host": "your-console-host",
   "info": {
     "contact": {
       "name": "ThakiCloud API Support",
@@ -21211,6 +21212,9 @@
       }
     }
   },
+  "schemes": [
+    "https"
+  ],
   "securityDefinitions": {
     "BearerAuth": {
       "description": "JWT Bearer token (format: \"Bearer {token}\")",

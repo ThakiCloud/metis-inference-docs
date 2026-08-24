@@ -98,13 +98,22 @@ const definitions = Object.fromEntries(
 )
 
 // ── 3. 호스트 정보 제거 (공개 레포 — 실 호스트를 스펙에 박지 않는다) ──
+// 선언만 되어 있고 오퍼레이션이 하나도 없는 태그는 뷰어에 빈 그룹으로 뜬다.
+// 원본 스펙은 9개를 선언하는데 실제로 쓰이는 태그는 그와 겹치지 않는 것이 많다.
+// 남은 오퍼레이션이 실제로 쓰는 태그만 남긴다.
+const usedTags = new Set(keptTags.keys())
+const declaredTags = (spec.tags ?? []).filter((t) => !isExcluded(t.name) && usedTags.has(t.name))
+const emptyTags = (spec.tags ?? [])
+  .filter((t) => !isExcluded(t.name) && !usedTags.has(t.name))
+  .map((t) => t.name)
+
 const out = {
   ...spec,
   host: undefined,
   schemes: undefined,
   paths,
   definitions,
-  tags: (spec.tags ?? []).filter((t) => !isExcluded(t.name)),
+  tags: declaredTags,
 }
 delete out.host
 delete out.schemes
@@ -128,6 +137,9 @@ console.log(`out        : ${outPath}`)
 console.log(`operations : kept ${kept}, dropped ${dropped} (${EXCLUDED_TAG_PREFIXES.join(', ')})`)
 console.log(`tags       : ${tagReport.length}`)
 console.log(`definitions: ${Object.keys(definitions).length} / ${Object.keys(allDefs).length}`)
+if (emptyTags.length > 0) {
+  console.log(`empty tags dropped: ${emptyTags.join(', ')}`)
+}
 for (const [tag, n] of tagReport) console.log(`  ${String(n).padStart(3)}  ${tag}`)
 
 let failed = false

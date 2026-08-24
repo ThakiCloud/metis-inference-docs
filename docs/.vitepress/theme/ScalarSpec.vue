@@ -24,6 +24,9 @@ onMounted(async () => {
   specUrl.value = props.url.startsWith('/') ? props.url : base + props.url
 
   try {
+    // 스타일시트를 같이 불러야 한다. 안 그러면 마운트는 되는데 스타일이 없는
+    // 맨 목록으로 렌더돼서 "동작은 하는데 깨진" 상태가 된다.
+    await import('@scalar/api-reference/style.css')
     const { createApiReference } = await import('@scalar/api-reference')
     createApiReference(container.value!, {
       url: specUrl.value,

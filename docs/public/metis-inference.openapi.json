@@ -21222,40 +21222,12 @@
   "swagger": "2.0",
   "tags": [
     {
-      "description": "서버 상태 확인 API",
-      "name": "Health"
-    },
-    {
       "description": "사용자 인증 API (로그인, 로그아웃, 토큰 갱신)",
       "name": "User Authentication"
     },
     {
-      "description": "그룹 관리 API",
-      "name": "Groups"
-    },
-    {
-      "description": "그룹 멤버 관리 API",
-      "name": "Group Members"
-    },
-    {
       "description": "프로젝트 관리 API",
       "name": "Projects"
-    },
-    {
-      "description": "프로젝트 멤버 관리 API",
-      "name": "Project Members"
-    },
-    {
-      "description": "사용자 조회 API",
-      "name": "Users"
-    },
-    {
-      "description": "Pod 관리 API (CRUD, 시작/중지, 로그/상태)",
-      "name": "Pods"
-    },
-    {
-      "description": "Resource-Level RBAC 정책 관리 API (Admin 전용)",
-      "name": "Admin Resource Policies"
     }
   ]
 }

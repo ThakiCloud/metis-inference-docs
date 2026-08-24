@@ -1,0 +1,71 @@
+name: Deploy docs to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 배포 워크플로에 필요한 최소 권한만 준다.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 진행 중인 배포는 취소하지 않는다 — 중간에 끊긴 배포가 사이트를 깨뜨릴 수 있다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # lastUpdated 를 위해 전체 히스토리가 필요하다
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # 게이트 1 — 스펙 필터가 기대한 오퍼레이션 수를 내는지.
+      # 원본 스펙이 바뀌어 범위가 흔들리면 여기서 멈춘다.
+      - name: Gate — OpenAPI filter
+        run: npm run spec:filter -- spec/metis-swagger-source.json --expect 160
+
+      # 게이트 2 — 공개 레포에 들어가면 안 되는 것들.
+      - name: Gate — secrets and real hosts
+        run: npm run check:secrets
+
+      # 게이트 3 — 참조하는 이미지가 실제로 있는지. 깨진 그림은 빈 화면보다 나쁘다.
+      # (아직 캡처가 안 들어간 자리는 개수만 보고하고 막지 않는다.)
+      - name: Gate — screenshots
+        run: npm run check:shots
+
+      # 게이트 4 — 죽은 링크가 있으면 vitepress 가 빌드를 실패시킨다.
+      - name: Build
+        run: npm run docs:build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

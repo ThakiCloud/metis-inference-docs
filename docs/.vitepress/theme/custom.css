@@ -1,0 +1,45 @@
+/**
+ * 브랜드 토큰 + 문서 캡처 이미지 규약.
+ * 색은 여기서만 정의한다 — 페이지 마크다운에 hex 를 쓰지 않는다.
+ */
+:root {
+  --vp-c-brand-1: #2563eb;
+  --vp-c-brand-2: #1d4ed8;
+  --vp-c-brand-3: #1e40af;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #2563eb, #06b6d4);
+
+  --docs-shot-border: rgba(60, 60, 67, 0.16);
+}
+
+.dark {
+  --vp-c-brand-1: #60a5fa;
+  --vp-c-brand-2: #3b82f6;
+  --vp-c-brand-3: #2563eb;
+  --vp-c-brand-soft: rgba(96, 165, 250, 0.16);
+
+  --docs-shot-border: rgba(255, 255, 255, 0.18);
+}
+
+/* 화면 캡처는 본문 폭에 맞추고 테두리로 배경과 분리한다.
+   캡처마다 크기가 달라도 레이아웃이 흔들리지 않게 폭을 고정한다. */
+.vp-doc img[src*="/images/"] {
+  width: 100%;
+  border: 1px solid var(--docs-shot-border);
+  border-radius: 8px;
+}
+
+/* 넓은 표는 페이지가 아니라 표 자신이 스크롤한다. */
+.vp-doc table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Scalar 가 자체 사이드바를 그리므로 그 페이지에서는 본문 폭 제한을 푼다. */
+.api-reference-page .VPDoc .container,
+.api-reference-page .VPDoc .content {
+  max-width: none;
+}

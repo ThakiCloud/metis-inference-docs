@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# vitepress build output
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# secrets — never commit
+.env
+.env.*
+!.env.example
+tests/.auth/
+
+# playwright artifacts
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# os / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# 레거시 캡처 — ETRI 화면과 대조 전까지 게시하지 않는다
+legacy-captures/

@@ -1,0 +1,27 @@
+{
+  "name": "metis-inference-docs",
+  "version": "1.0.0",
+  "description": "Metis AI Inference · Admin AI Inference 사용자 가이드",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "spec:filter": "node scripts/filter-openapi.mjs",
+    "capture": "playwright test --project=chromium",
+    "capture:ui": "playwright test --ui",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "check:shots": "node scripts/screenshot-todo.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "dotenv": "^16.4.5",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.13"
+  },
+  "dependencies": {
+    "@scalar/api-reference": "^1.25.0"
+  },
+  "license": "Apache-2.0"
+}

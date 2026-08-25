@@ -7,7 +7,7 @@ title: Docker 엔드포인트 생성
 표준 vLLM 서버로는 안 되는, 직접 만든 컨테이너 이미지를 서빙하고 싶을 때 씁니다. 자세한
 용도 비교는 [워크로드 타입](/guide/workload-types) 의 `DOCKER_CUSTOM` 항목을 참고하세요.
 
-<!-- SCREENSHOT: serverless-create-docker -->
+![Docker 엔드포인트 생성 폼](/images/inference/serverless-create-docker.png)
 
 ## 입력 항목
 

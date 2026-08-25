@@ -4,11 +4,14 @@ title: 사용자 스토리지 쿼터
 
 # 사용자 스토리지 쿼터
 
+::: warning 이 환경의 콘솔 메뉴에는 없습니다
+이 배포의 관리자 앱 사이드바에는 스토리지 쿼터 메뉴가 없습니다. 아래 설명은 기능 자체에 대한 것이고, 플랫폼 API 로는 그대로 쓸 수 있습니다.
+설치 환경에 따라 메뉴가 노출되기도 합니다.
+:::
+
 이 화면은 특정 사용자 한 명의 스토리지 한도를 시스템 기본값과 다르게 조정할 때 씁니다.
 조직 전체의 기본값·최대값은 [시스템 설정](/admin/management/settings)에서 따로
 관리하고, 여기서는 그 기본값에 대한 **개인별 예외(override)**만 다룹니다.
-
-<!-- SCREENSHOT: admin-management-storage-quota -->
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \

@@ -32,7 +32,7 @@ title: 가이드 개요
 ## 이 가이드가 다루지 않는 것
 
 - 콘솔 화면 조작법 → [AI Inference 앱](/inference/)
-- 테넌트 전체 운영(노드·사용량·가격 정책) → [Admin AI Inference 앱](/admin/)
+- 테넌트 전체 운영(엔드포인트·노드·사용량 추세) → [Admin AI Inference 앱](/admin/)
 - 전체 API 스펙 → [API 레퍼런스](/api/)
 
 ## 다음

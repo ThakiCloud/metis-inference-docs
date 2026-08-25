@@ -8,7 +8,14 @@ Rebellions NPU 하드웨어에서 vLLM 서버를 띄웁니다. 입력 항목은
 [CPU vLLM 엔드포인트 생성](/inference/serverless/create-vllm-cpu) 과 거의 같고, NPU 개수
 항목이 하나 더 붙습니다.
 
-<!-- SCREENSHOT: serverless-create-vllm-rbln -->
+![Rebellions vLLM 엔드포인트 생성 폼](/images/inference/serverless-create-vllm-rbln.png)
+
+| 번호 | 영역 | 설명 |
+|---|---|---|
+| 1 | Basic Information | 이름과 모델을 고르는 첫 단계입니다. |
+| 2 | Name | 엔드포인트 이름. 소문자·숫자·하이픈만 쓰는 DNS-1123 규칙을 따릅니다. |
+| 3 | Model | 이 클러스터에서 서빙 가능한 모델 목록에서 고릅니다. 검색으로 좁힐 수 있고 Base / Fine-tuned 로 나뉩니다. |
+| 4 | Summary | 단계별 입력이 유효한지 표시하고, 전부 채워지면 Create 가 활성화됩니다. |
 
 ## 입력 항목
 

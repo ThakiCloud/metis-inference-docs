@@ -7,7 +7,7 @@ title: 엔드포인트 수정
 이미 만든 엔드포인트의 설정을 바꾸는 화면입니다. [엔드포인트 조회](/inference/serverless/list)
 목록에서 행 액션 메뉴의 편집을 선택하면 열립니다.
 
-<!-- SCREENSHOT: serverless-edit -->
+![엔드포인트 편집 폼](/images/inference/serverless-edit.png)
 
 ## 낙관적 잠금 — version
 

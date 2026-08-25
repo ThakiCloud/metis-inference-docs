@@ -8,7 +8,7 @@ GPU 없이 vLLM 서버를 띄웁니다. 가벼운 모델을 테스트하거나 G
 씁니다. GPU 버전보다 처리량이 낮으므로 프로덕션 트래픽에는 권장하지 않는다는 점은
 [워크로드 타입](/guide/workload-types) 에서도 설명합니다.
 
-<!-- SCREENSHOT: serverless-create-vllm-cpu -->
+![CPU vLLM 엔드포인트 생성 폼](/images/inference/serverless-create-vllm-cpu.png)
 
 ## 입력 항목
 

@@ -8,7 +8,7 @@ title: 전체 엔드포인트 조회
 vLLM · vLLM CPU · vLLM Rebellions 네 워크로드 타입이 한 화면에 섞여 나오고, 각 행에는
 소속 프로젝트와 (연결돼 있으면) 클러스터가 함께 표시됩니다.
 
-<!-- SCREENSHOT: admin-endpoint-list -->
+![관리자 앱의 테넌트 전체 엔드포인트 목록](/images/admin/admin-endpoint-list.png)
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \

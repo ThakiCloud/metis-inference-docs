@@ -7,7 +7,7 @@ title: 엔드포인트 삭제
 더 이상 쓰지 않는 엔드포인트를 영구히 지웁니다. [엔드포인트 조회](/inference/serverless/list)
 목록의 행 액션 메뉴에서 삭제를 선택합니다.
 
-<!-- SCREENSHOT: serverless-delete-confirm -->
+![엔드포인트 삭제 확인 창](/images/inference/serverless-delete-confirm.png)
 
 ## 삭제하면 되돌릴 수 없습니다
 

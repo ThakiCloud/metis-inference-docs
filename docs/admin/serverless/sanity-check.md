@@ -49,4 +49,3 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 - [전체 엔드포인트 조회](/admin/serverless/list)
 - [최근 활동](/admin/serverless/activities)
-- [토큰 사용량](/admin/metering/tokens)

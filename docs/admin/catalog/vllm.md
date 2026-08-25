@@ -4,11 +4,14 @@ title: vLLM 카탈로그
 
 # vLLM 카탈로그
 
+::: warning 이 환경의 콘솔 메뉴에는 없습니다
+이 배포의 관리자 앱 사이드바에는 vLLM 카탈로그 메뉴가 없습니다. 아래 설명은 기능 자체에 대한 것이고, 플랫폼 API 로는 그대로 쓸 수 있습니다.
+설치 환경에 따라 메뉴가 노출되기도 합니다.
+:::
+
 vLLM 카탈로그는 특정 모델을 배포할 때 적용할 실행 오버라이드를 관리자가 미리 등록해 두는
 곳입니다. 사용자가 vLLM 엔드포인트를 만들 때 모델 이름만 고르면, 여기 등록된
 `vllm_config` 와 `env` 가 자동으로 적용됩니다.
-
-<!-- SCREENSHOT: admin-catalog-vllm -->
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \
@@ -52,5 +55,4 @@ curl -X DELETE -H "Authorization: Bearer $TOKEN" \
 ## 다음
 
 - [엔드포인트 수정](/admin/serverless/edit)
-- [가격 정책](/admin/metering/pricing-rules)
 - [의존성(SBOM)](/admin/monitoring/dependencies)

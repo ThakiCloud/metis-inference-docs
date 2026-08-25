@@ -8,7 +8,15 @@ title: 대시보드
 요약, 워크로드 개요, 볼륨 개요 세 덩어리로 보여줍니다. 개별 화면을 하나씩 열어보기 전에
 상태를 훑어보는 용도이지, 여기서 무언가를 만들거나 고치지는 않습니다.
 
-<!-- SCREENSHOT: dashboard-overview -->
+![AI Inference 대시보드 — 클러스터 정보, 용량, 워크로드·볼륨 요약, 최근 활동](/images/inference/dashboard-overview.png)
+
+| 번호 | 영역 | 설명 |
+|---|---|---|
+| 1 | 사이드바 | 클러스터·프로젝트 선택기와 메뉴. Serverless(Docker) · vLLM(CPU · Rebellions) · Infrastructure(Templates · Workloads · Volumes) · Management(Projects) 로 묶여 있습니다. |
+| 2 | Info | 지금 보고 있는 클러스터와 프로젝트. 데이터가 예상과 다르면 여기부터 확인합니다. |
+| 3 | Capacity | 클러스터 쿼터 대비 CPU·메모리·GPU 요청량. 엔드포인트가 `queued` 에서 안 넘어갈 때 여기를 봅니다. |
+| 4 | Workload Summary | 워크로드 상태별 개수. 볼륨 요약이 옆에 나란히 있습니다. |
+| 5 | Recent Activities | 이 프로젝트에서 최근에 일어난 생성·삭제·깨우기 이력. |
 
 클러스터 요약은 이 프로젝트의 엔드포인트가 어떤 클러스터 자원 위에서 도는지를 보여줍니다.
 워크로드 개요는 현재 떠 있는 워크로드가 몇 개이고 어떤 상태인지를, 볼륨 개요는 프로젝트에

@@ -90,8 +90,7 @@ curl -i https://<your-endpoint-host>/v1/models
 토큰 사용량과 비용은 키 단위로 집계됩니다. 관리자 앱에서 키별 사용량·비용·활동 이력을
 보고, 키마다 RPS·RPM·월 토큰 한도를 걸 수 있습니다.
 
-- [토큰 사용량](/admin/metering/tokens)
-- [레이트 리밋 설정](/admin/metering/rate-limits)
+- [Admin AI Inference 앱](/admin/)
 
 ## 다음
 

@@ -6,7 +6,7 @@ title: 엔드포인트 삭제
 
 삭제는 되돌릴 수 없습니다. 엔드포인트가 실행 중이면 먼저 정지한 뒤 삭제가 진행됩니다.
 
-<!-- SCREENSHOT: admin-endpoint-delete-confirm -->
+![관리자 앱의 엔드포인트 삭제 확인](/images/admin/admin-endpoint-delete-confirm.png)
 
 ```bash
 curl -X DELETE -H "Authorization: Bearer $TOKEN" \

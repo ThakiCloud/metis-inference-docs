@@ -12,6 +12,12 @@ export default defineConfig({
   lastUpdated: true,
   ignoreDeadLinks: false,
 
+  // 미터링·과금 섹션은 아직 검증되지 않아 사이트에서 뺀다.
+  // 파일은 docs/admin/metering/ 에 그대로 있고, 이 한 줄을 지우면 되살아난다.
+  // 되살릴 때는 사이드바의 "미터링·과금" 블록과 인바운드 링크도 함께 복구할 것
+  // (같은 커밋에서 지웠으니 git 이력에서 그대로 꺼낼 수 있다).
+  srcExclude: ['**/admin/metering/**'],
+
   head: [
     ['link', { rel: 'icon', href: `${base}favicon.svg` }],
     ['meta', { name: 'theme-color', content: '#2563eb' }],
@@ -137,18 +143,7 @@ export default defineConfig({
             { text: '의존성(SBOM)', link: '/admin/monitoring/dependencies' },
           ],
         },
-        {
-          text: '미터링·과금',
-          collapsed: false,
-          items: [
-            { text: '토큰 사용량', link: '/admin/metering/tokens' },
-            { text: '비용 조회', link: '/admin/metering/costs' },
-            { text: '키 로스터와 활동', link: '/admin/metering/key-roster' },
-            { text: '이상 탐지 알림', link: '/admin/metering/alerts' },
-            { text: '레이트 리밋 설정', link: '/admin/metering/rate-limits' },
-            { text: '가격 정책', link: '/admin/metering/pricing-rules' },
-          ],
-        },
+        // 미터링·과금 섹션은 검증 전이라 숨겨 두었다. srcExclude 와 함께 복구할 것.
         {
           text: '카탈로그·관리',
           collapsed: false,

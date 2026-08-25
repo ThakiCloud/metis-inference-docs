@@ -8,7 +8,7 @@ title: 템플릿
 새로 입력하는 대신 템플릿에서 시작할 수 있습니다. 템플릿이 무엇을 담는지는
 [핵심 개념](/guide/concepts) 에서 설명합니다.
 
-<!-- SCREENSHOT: templates-list -->
+![템플릿 목록](/images/inference/templates-list.png)
 
 목록에서 지금까지 만들어 둔 템플릿을 확인하고, 필요하면 새로 만들거나 기존 템플릿을
 고칩니다. 행을 열면 그 템플릿에 저장된 값을 자세히 볼 수 있고, 편집 화면에서 값을

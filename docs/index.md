@@ -27,7 +27,7 @@ features:
     details: 트래픽이 없으면 0으로 줄었다가 요청이 오면 깨어납니다. 첫 요청 지연을 다루는 법을 안내합니다.
     link: /guide/inference/cold-start
   - title: 관리자 운영
-    details: 테넌트 전체 엔드포인트·노드·사용량 추세·토큰 미터링·가격 정책을 관리자 앱에서 봅니다.
+    details: 테넌트 전체 엔드포인트와 노드·사용량 추세·클러스터 현황을 관리자 앱에서 봅니다.
     link: /admin/
 ---
 

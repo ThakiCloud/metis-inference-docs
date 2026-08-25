@@ -8,7 +8,7 @@ title: 사용량 추세
 급증했던 CPU·메모리 사용량이나, GPU 활용도가 낮은 채로 오래 떠 있는 워크로드를 찾을 때
 씁니다.
 
-<!-- SCREENSHOT: admin-monitoring-usage-trend -->
+![사용량 추세](/images/admin/admin-monitoring-usage-trend.png)
 
 시계열 데이터는 다음 필드로 구성됩니다. 시간 형식은 리소스 목록과 달리 RFC 3339
 문자열입니다([API 레퍼런스](/api/) 참고).
@@ -27,4 +27,3 @@ GPU 활용도는 같은 화면의 별도 그래프로, `time` · `value`(퍼센�
 
 - [노드](/admin/monitoring/nodes)
 - [연결된 클러스터](/admin/monitoring/clusters)
-- [토큰 사용량](/admin/metering/tokens) — 모델 호출 관점의 사용량

@@ -8,7 +8,7 @@ title: 프로젝트 관리
 곳입니다. 일반 사용자가 자기 프로젝트 설정을 보는 화면과 달리, 여기서는 조직 전체
 프로젝트를 가로질러 다룹니다.
 
-<!-- SCREENSHOT: admin-management-projects -->
+![관리자 앱의 프로젝트 관리](/images/admin/admin-management-projects.png)
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \

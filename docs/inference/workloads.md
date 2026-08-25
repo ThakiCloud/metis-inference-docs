@@ -9,14 +9,14 @@ title: 워크로드
 [핵심 개념](/guide/concepts) 의 워크로드 항목을 참고하세요 — 여기서는 콘솔 화면만
 다룹니다.
 
-<!-- SCREENSHOT: workloads-list -->
+![워크로드 목록](/images/inference/workloads-list.png)
 
 ## 목록과 상세
 
 워크로드 목록에서 현재 떠 있는 워크로드를 확인합니다. 행을 열면 상세 화면으로 들어가
 그 워크로드의 상태를 더 자세히 볼 수 있습니다.
 
-<!-- SCREENSHOT: workloads-detail -->
+![워크로드 상세](/images/inference/workloads-detail.png)
 
 ## 배포와 편집
 

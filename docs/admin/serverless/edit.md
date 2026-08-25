@@ -7,7 +7,7 @@ title: 엔드포인트 수정
 관리자는 어느 프로젝트에 속한 엔드포인트든 수정할 수 있습니다. 목록의 액션 메뉴에서 편집을
 선택하면 GPU 개수, 최소·최대 레플리카, 스케일링 타이밍을 바꾸는 패널이 열립니다.
 
-<!-- SCREENSHOT: admin-endpoint-edit -->
+![관리자 앱의 엔드포인트 편집](/images/admin/admin-endpoint-edit.png)
 
 수정 가능한 필드는 이 네 가지뿐입니다.
 

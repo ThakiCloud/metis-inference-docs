@@ -4,6 +4,11 @@ title: vLLM 엔드포인트 생성
 
 # vLLM 엔드포인트 생성
 
+::: warning 이 환경의 콘솔 메뉴에는 없습니다
+이 배포의 사이드바에는 GPU vLLM 항목이 노출되지 않습니다(Docker · CPU vLLM · Rebellions vLLM 만 보입니다). 아래 설명은 기능 자체에 대한 것이고, 플랫폼 API 로는 그대로 쓸 수 있습니다.
+설치 환경에 따라 메뉴가 노출되기도 합니다.
+:::
+
 GPU 위에서 vLLM 의 OpenAI 호환 서버를 띄웁니다. 텍스트 생성 모델을 서빙할 때 가장 먼저
 고려하는 방식입니다. 다른 워크로드 타입과의 차이는 [워크로드 타입](/guide/workload-types)
 을 참고하세요.
@@ -13,8 +18,6 @@ GPU 위에서 vLLM 의 OpenAI 호환 서버를 띄웁니다. 텍스트 생성 �
 vLLM, Rebellions vLLM 세 가지만 보이고 GPU vLLM 항목은 빠져 있습니다. 다만 라우트 자체는
 살아 있으므로 주소를 직접 입력해 들어갈 수 있습니다.
 :::
-
-<!-- SCREENSHOT: serverless-create-vllm -->
 
 ## 입력 항목
 

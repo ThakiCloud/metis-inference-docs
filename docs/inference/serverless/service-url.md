@@ -8,7 +8,13 @@ title: Service URL 확인
 확인하는 방법이 이 화면입니다. 여기서 얻은 주소로 애플리케이션이 직접 호출합니다 — 콘솔이나
 플랫폼 API 를 거치지 않습니다.
 
-<!-- SCREENSHOT: serverless-service-url-panel -->
+![Service URL 패널 — 엔드포인트 이름과 호출 주소, 복사 버튼](/images/inference/serverless-service-url-panel.png)
+
+| 번호 | 영역 | 설명 |
+|---|---|---|
+| 1 | Service URL 패널 | 액션 메뉴에서 **Service URL** 을 고르면 오른쪽에서 열립니다. |
+| 2 | Name | 어느 엔드포인트의 주소인지 확인합니다. 목록에서 고른 행과 같아야 합니다. |
+| — | Service URL | 아래 칸의 값이 호출 주소입니다. 오른쪽 복사 아이콘으로 그대로 가져갑니다. 배포 전에는 비어 있습니다. |
 
 ## 확인하는 방법
 

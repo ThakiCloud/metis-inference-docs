@@ -8,7 +8,7 @@ title: 최근 활동
 누가 언제 무엇을 했는지 — 생성·수정·삭제·일시정지·재개 — 를 프로젝트 경계 없이 한 번에
 훑을 때 씁니다.
 
-<!-- SCREENSHOT: admin-recent-activities -->
+![테넌트 전체 최근 활동](/images/admin/admin-recent-activities.png)
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \
@@ -35,4 +35,3 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 - [전체 엔드포인트 조회](/admin/serverless/list)
 - [Sanity Check](/admin/serverless/sanity-check)
-- [키 로스터와 활동](/admin/metering/key-roster) — 누가 얼마나 호출했는지

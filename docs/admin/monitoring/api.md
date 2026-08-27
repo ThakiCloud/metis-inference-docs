@@ -25,16 +25,27 @@ title: 인프라 모니터링 API
 함께** 들어갑니다. 경로 이름만 보고 GPU 전용이라고 판단하지 마세요.
 :::
 
+::: warning `cluster` 를 생략하지 마세요
+아래 세 경로는 멀티 클러스터 환경에서 이 파라미터가 사실상 필수입니다. 생략하면
+`resource-inventory` 와 `metrics/cluster` 는 `500` 을 돌려줍니다. `resources/availability` 는
+200 이 오지만 워크로드 클러스터가 아닌 값을 줘서 가속기가 `total: 0` 으로 보입니다. 자세한 내용은
+[알려진 스펙 문제](/api/known-issues)에 적어 두었습니다.
+
+`gpu-utilization` · `gpu-trends` · `health` 는 생략해도 정상으로 옵니다.
+
+클러스터 ID 는 엔드포인트나 워크로드를 조회하면 `cluster_id` 필드로 나옵니다.
+:::
+
 ## 지금 자원이 얼마나 남았나
 
 배포 전에 여유를 확인할 때 씁니다.
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \
-  "https://<your-console-host>/api/v1/metis/admin/kueue/resources/availability"
+  "https://<your-console-host>/api/v1/metis/admin/kueue/resources/availability?cluster=<your-cluster-id>"
 ```
 
-`cluster` 쿼리로 특정 클러스터만 볼 수 있고, 생략하면 전체 클러스터를 합산합니다.
+`cluster` 쿼리로 대상 클러스터를 지정합니다.
 
 ## 가속기별 상세는 인벤토리로
 
@@ -42,7 +53,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \
-  "https://<your-console-host>/api/v1/metis/admin/kueue/resource-inventory?page=1&page_size=50"
+  "https://<your-console-host>/api/v1/metis/admin/kueue/resource-inventory?page=1&page_size=50&cluster=<your-cluster-id>"
 ```
 
 | 쿼리 | 설명 |

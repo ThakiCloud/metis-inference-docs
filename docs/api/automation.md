@@ -102,6 +102,5 @@ ETRI 처럼 자원 전체를 API 로 돌리는 경우, 대체로 이 순서입�
 
 ## 다음
 
-- [이 API 의 범위](/api/scope)
 - [NPU 로 서빙하기](/guide/npu)
 - [알려진 스펙 문제](/api/known-issues)

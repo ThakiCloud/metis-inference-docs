@@ -100,7 +100,6 @@ export default defineConfig({
             { text: '볼륨', link: '/inference/volumes' },
             { text: '템플릿', link: '/inference/templates' },
             { text: '프로젝트', link: '/inference/projects' },
-            { text: '벤치마크', link: '/inference/benchmarks' },
           ],
         },
         {
@@ -163,7 +162,6 @@ export default defineConfig({
           text: 'API 레퍼런스',
           items: [
             { text: '개요', link: '/api/' },
-            { text: '이 API 의 범위', link: '/api/scope' },
             { text: '인증', link: '/api/authentication' },
             { text: '프로그래밍 방식 제어', link: '/api/automation' },
             { text: '공통 규약', link: '/api/conventions' },

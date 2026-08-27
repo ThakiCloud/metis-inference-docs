@@ -49,7 +49,7 @@ Rebellions vLLM 이 각자 자기 목록 화면을 갖고, 화면 구성과 조�
 |---|---|
 | Service URL | 이 엔드포인트의 호출 주소를 패널로 보여줍니다. [Service URL 확인](/inference/serverless/service-url) |
 | 로그 보기 | 컨테이너 로그를 확인합니다. [프롬프트 전송·로그 보기](/inference/serverless/prompt-and-logs) |
-| 벤치마크 | vLLM 계열 엔드포인트에서만 보입니다. 처리량을 잽니다. [벤치마크](/inference/benchmarks) |
+| 벤치마크 | vLLM 계열 엔드포인트에서만 보입니다. 처리량을 잽니다. |
 | 프롬프트 전송 | 콘솔 안에서 바로 요청을 보내 동작을 확인합니다. [프롬프트 전송·로그 보기](/inference/serverless/prompt-and-logs) |
 | 일시정지 | 레플리카를 내려 자원을 반납합니다. [일시정지·재개](/inference/serverless/pause-resume) |
 | 재개 | 일시정지된 엔드포인트를 다시 띄웁니다. [일시정지·재개](/inference/serverless/pause-resume) |

@@ -30,7 +30,6 @@ AI Inference 는 모델을 엔드포인트로 배포하고, 그 상태를 관리
 | 모델·데이터를 영속 저장한다 | [볼륨](/inference/volumes) |
 | 반복되는 생성 설정을 저장해 둔다 | [템플릿](/inference/templates) |
 | 프로젝트를 관리한다 | [프로젝트](/inference/projects) |
-| 처리량을 잰다 | [벤치마크](/inference/benchmarks) |
 | 토큰 사용량과 비용을 본다 | [사용량과 비용](/inference/usage) |
 | 프라이빗 이미지 자격 증명·SSH 키를 등록한다 | [레지스트리 자격 증명](/inference/settings/registry-credentials) · [SSH 키](/inference/settings/ssh-keys) |
 

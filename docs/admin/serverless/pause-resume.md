@@ -7,7 +7,7 @@ title: 일시정지·재개
 일시정지는 엔드포인트를 지우지 않고 자원만 반납하는 방법입니다. 다시 쓸 계획이 있는데
 당장은 트래픽이 없는 엔드포인트에 씁니다.
 
-<!-- SCREENSHOT: admin-endpoint-pause-resume -->
+![관리자 앱의 엔드포인트 일시정지·재개](/images/admin/admin-endpoint-pause-resume.png)
 
 ```bash
 curl -X POST -H "Authorization: Bearer $TOKEN" \

@@ -33,7 +33,7 @@ AI Inference 앱은 로그인한 사용자가 속한 **프로젝트 하나**의 
 쿼터, 시스템 설정이 그것입니다. 이들은 전부 `admin` 경로 아래에 있고 일반 프로젝트 API 에는
 대응하는 경로가 없습니다.
 
-<!-- SCREENSHOT: admin-vs-inference-nav -->
+![관리자 앱과 일반 앱의 사이드바 비교](/images/admin/admin-vs-inference-nav.png)
 
 ## 인증은 같습니다
 

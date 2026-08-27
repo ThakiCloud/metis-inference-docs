@@ -110,6 +110,8 @@ console.log(response.choices[0].message.content)
 | 모델을 처음 띄워 본다 | [빠른 시작](/guide/quickstart) |
 | 내 코드에서 호출한다 | [엔드포인트 URL](/guide/inference/endpoint-url) → [OpenAI 호환 API](/guide/inference/openai-compatible) |
 | 첫 요청이 느린 이유가 궁금하다 | [콜드 스타트](/guide/inference/cold-start) |
+| NPU(Rebellions)로 서빙한다 | [NPU 로 서빙하기](/guide/npu) |
+| 콘솔 대신 스크립트로 돌린다 | [프로그래밍 방식 제어](/api/automation) |
 | 콘솔 화면 사용법을 찾는다 | [AI Inference 앱](/inference/) |
 | 테넌트 전체를 운영한다 | [Admin AI Inference 앱](/admin/) |
 | 엔드포인트 스펙을 본다 | [API 레퍼런스](/api/) |

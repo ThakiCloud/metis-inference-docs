@@ -48,6 +48,7 @@ export default defineConfig({
             { text: '빠른 시작 — 60초 첫 추론', link: '/guide/quickstart' },
             { text: '핵심 개념', link: '/guide/concepts' },
             { text: '워크로드 타입', link: '/guide/workload-types' },
+            { text: 'NPU 로 서빙하기', link: '/guide/npu' },
           ],
         },
         {
@@ -141,6 +142,7 @@ export default defineConfig({
             { text: '사용량 추세', link: '/admin/monitoring/usage-trend' },
             { text: '연결된 클러스터', link: '/admin/monitoring/clusters' },
             { text: '의존성(SBOM)', link: '/admin/monitoring/dependencies' },
+            { text: '모니터링 API', link: '/admin/monitoring/api' },
           ],
         },
         // 미터링·과금 섹션은 검증 전이라 숨겨 두었다. srcExclude 와 함께 복구할 것.
@@ -161,9 +163,12 @@ export default defineConfig({
           text: 'API 레퍼런스',
           items: [
             { text: '개요', link: '/api/' },
+            { text: '이 API 의 범위', link: '/api/scope' },
             { text: '인증', link: '/api/authentication' },
+            { text: '프로그래밍 방식 제어', link: '/api/automation' },
             { text: '공통 규약', link: '/api/conventions' },
             { text: '에러 코드', link: '/api/errors' },
+            { text: '알려진 스펙 문제', link: '/api/known-issues' },
             { text: '전체 스펙 (OpenAPI)', link: '/api/reference' },
           ],
         },

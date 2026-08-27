@@ -8,7 +8,7 @@ title: 일시정지·재개
 [엔드포인트 조회](/inference/serverless/list) 목록의 행 액션 메뉴에 일시정지와 재개가
 따로 있습니다.
 
-<!-- SCREENSHOT: serverless-pause-resume -->
+![엔드포인트 일시정지·재개](/images/inference/serverless-pause-resume.png)
 
 ## 일시정지
 

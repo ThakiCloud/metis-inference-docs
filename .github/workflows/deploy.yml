@@ -36,7 +36,7 @@ jobs:
       # 게이트 1 — 스펙 필터가 기대한 오퍼레이션 수를 내는지.
       # 원본 스펙이 바뀌어 범위가 흔들리면 여기서 멈춘다.
       - name: Gate — OpenAPI filter
-        run: npm run spec:filter -- spec/metis-swagger-source.json --expect 160
+        run: npm run spec:filter -- spec/metis-swagger-source.json --expect 166
 
       # 게이트 2 — 공개 레포에 들어가면 안 되는 것들.
       - name: Gate — secrets and real hosts

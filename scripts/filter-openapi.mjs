@@ -16,8 +16,24 @@ import { dirname, resolve } from 'node:path'
 
 const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch', 'head', 'options']
 
-/** 제외할 태그 접두사. 큐는 이 문서의 범위가 아니다(사용자 확정 2026-08-25). */
+/** 제외할 태그 접두사. 큐 스케줄링 관리는 이 문서의 범위가 아니다(사용자 확정 2026-08-25). */
 const EXCLUDED_TAG_PREFIXES = ['Kueue']
+
+/**
+ * 태그가 제외 대상이어도 되살리는 경로.
+ *
+ * 큐 "관리"(큐 생성·수정·검증·ETA)는 계속 제외하지만, 인프라 모니터링과 가속기 자원
+ * 조회는 큐와 무관한 관심사인데 태그만 Kueue 아래에 있다. 이걸 같이 잘라내면
+ * 관리자 모니터링 화면을 설명해 놓고 그 화면을 움직이는 API 는 문서에 없는 상태가 된다.
+ */
+const INCLUDED_PATHS = new Set([
+  '/api/v1/metis/admin/kueue/metrics/cluster',
+  '/api/v1/metis/admin/kueue/metrics/gpu-utilization',
+  '/api/v1/metis/admin/kueue/metrics/gpu-trends',
+  '/api/v1/metis/admin/kueue/resource-inventory',
+  '/api/v1/metis/admin/kueue/resources/availability',
+  '/api/v1/metis/admin/kueue/health',
+])
 
 /** 뷰어에 표시할 서버 호스트. 실 호스트를 넣지 않는다 — 공개 문서다. */
 const PLACEHOLDER_HOST = 'your-console-host'
@@ -53,13 +69,15 @@ for (const [path, item] of Object.entries(spec.paths ?? {})) {
       continue
     }
     const tag = (op.tags ?? ['<none>'])[0]
-    if (isExcluded(tag)) {
+    if (isExcluded(tag) && !INCLUDED_PATHS.has(path)) {
       dropped++
       continue
     }
+    if (INCLUDED_PATHS.has(path)) op.tags = ['Infrastructure Monitoring']
+    const finalTag = (op.tags ?? ['<none>'])[0]
     next[method] = op
     kept++
-    keptTags.set(tag, (keptTags.get(tag) ?? 0) + 1)
+    keptTags.set(finalTag, (keptTags.get(finalTag) ?? 0) + 1)
   }
   if (HTTP_METHODS.some((m) => m in next)) paths[path] = next
 }

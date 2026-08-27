@@ -2083,6 +2083,714 @@
         }
       }
     },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsNodeInfo": {
+      "description": "클러스터 노드 수 요약",
+      "type": "object",
+      "required": [
+        "gpuNodes",
+        "notReady",
+        "ready",
+        "total"
+      ],
+      "properties": {
+        "gpuNodes": {
+          "description": "nvidia.com/gpu allocatable 보유 노드 수",
+          "type": "integer",
+          "format": "int32",
+          "example": 4
+        },
+        "notReady": {
+          "description": "Ready 아님",
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "ready": {
+          "description": "Ready 조건 True",
+          "type": "integer",
+          "format": "int32",
+          "example": 11
+        },
+        "total": {
+          "description": "등록된 노드 총수",
+          "type": "integer",
+          "format": "int32",
+          "example": 12
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsResourceUtil": {
+      "description": "Running 파드 requests 대비 allocatable 백분율 (0–100)",
+      "type": "object",
+      "required": [
+        "cpu",
+        "gpu",
+        "memory"
+      ],
+      "properties": {
+        "cpu": {
+          "description": "CPU 사용률 (%)",
+          "type": "number",
+          "example": 62.5
+        },
+        "gpu": {
+          "description": "GPU 사용률 (%, 할당 GPU 없으면 0)",
+          "type": "number",
+          "example": 55
+        },
+        "memory": {
+          "description": "메모리 사용률 (%)",
+          "type": "number",
+          "example": 71
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsResult": {
+      "description": "클러스터 메트릭(노드·워크로드·리소스 사용률) 응답",
+      "type": "object",
+      "required": [
+        "nodes",
+        "resourceUtilization",
+        "timestamp",
+        "workloads"
+      ],
+      "properties": {
+        "nodes": {
+          "description": "노드 요약",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsNodeInfo"
+            }
+          ]
+        },
+        "resourceUtilization": {
+          "description": "리소스 사용률 (%)",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsResourceUtil"
+            }
+          ]
+        },
+        "timestamp": {
+          "description": "응답 생성 시각 (Unix 초)",
+          "type": "integer",
+          "format": "int64",
+          "example": 1713787200
+        },
+        "workloads": {
+          "description": "워크로드 상태 요약",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsWorkloadInfo"
+            }
+          ]
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsWorkloadInfo": {
+      "description": "시간 창 내 Kueue 워크로드 상태별 개수",
+      "type": "object",
+      "required": [
+        "completed",
+        "failed",
+        "pending",
+        "running",
+        "total"
+      ],
+      "properties": {
+        "completed": {
+          "description": "finished이며 성공 조건",
+          "type": "integer",
+          "format": "int32",
+          "example": 150
+        },
+        "failed": {
+          "description": "finished이며 실패",
+          "type": "integer",
+          "format": "int32",
+          "example": 15
+        },
+        "pending": {
+          "description": "pending 수",
+          "type": "integer",
+          "format": "int32",
+          "example": 30
+        },
+        "running": {
+          "description": "admitted로 집계된 수",
+          "type": "integer",
+          "format": "int32",
+          "example": 45
+        },
+        "total": {
+          "description": "창 안에서 집계된 워크로드 수 합계",
+          "type": "integer",
+          "format": "int32",
+          "example": 240
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.FlavorInventory": {
+      "description": "ResourceFlavor별 리소스 용량, 사용량, 쿼터 정보",
+      "type": "object",
+      "properties": {
+        "allocated_capacity": {
+          "description": "주요 리소스 Kueue 워크로드 사용량",
+          "type": "integer",
+          "example": 1
+        },
+        "allocated_cpu_cores": {
+          "description": "Kueue 워크로드가 사용 중인 CPU (코어)",
+          "type": "integer",
+          "example": 8
+        },
+        "allocated_gpus": {
+          "description": "Kueue 워크로드가 사용 중인 GPU",
+          "type": "integer",
+          "example": 1
+        },
+        "allocated_memory_gb": {
+          "description": "Kueue 워크로드가 사용 중인 메모리 (GB)",
+          "type": "integer",
+          "example": 32
+        },
+        "available_capacity": {
+          "description": "주요 리소스 가용량",
+          "type": "integer",
+          "example": 3
+        },
+        "cluster_id": {
+          "description": "소스 클러스터 ID. All-Clusters 뷰에서 flavor가 속한 스포크를 식별한다\n(단일 클러스터 조회 시에도 채워짐, 비어 있으면 omit)",
+          "type": "string",
+          "example": "e40737de-e80e"
+        },
+        "cluster_name": {
+          "description": "소스 클러스터 표시 이름 (cluster_name 조인). 비어 있으면 omit",
+          "type": "string",
+          "example": "tkai-h100"
+        },
+        "id": {
+          "description": "Flavor 순번",
+          "type": "integer",
+          "example": 1
+        },
+        "is_active": {
+          "description": "매칭 노드 존재 여부",
+          "type": "boolean",
+          "example": true
+        },
+        "last_synced_at": {
+          "description": "마지막 동기화 시각 (RFC3339)",
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-04-22T10:00:00Z"
+        },
+        "metadata": {
+          "description": "노드 라벨, GPU 타입 등 부가 정보",
+          "type": "object"
+        },
+        "name": {
+          "description": "ResourceFlavor 이름",
+          "type": "string",
+          "example": "gpu-h100-nvl-4"
+        },
+        "node_cpu_cores": {
+          "description": "매칭 노드의 물리 CPU 코어 합계",
+          "type": "integer",
+          "example": 64
+        },
+        "node_gpus": {
+          "description": "매칭 노드의 물리 GPU 합계",
+          "type": "integer",
+          "example": 4
+        },
+        "node_memory_gb": {
+          "description": "매칭 노드의 물리 메모리 합계 (GB)",
+          "type": "integer",
+          "example": 188
+        },
+        "quota_cpu_cores": {
+          "description": "ClusterQueue nominalQuota CPU (코어)",
+          "type": "integer",
+          "example": 32
+        },
+        "quota_gpus": {
+          "description": "ClusterQueue nominalQuota GPU",
+          "type": "integer",
+          "example": 4
+        },
+        "quota_memory_gb": {
+          "description": "ClusterQueue nominalQuota 메모리 (GB)",
+          "type": "integer",
+          "example": 187
+        },
+        "referenced_by_queues": {
+          "description": "이 Flavor를 참조하는 ClusterQueue 이름 목록 (빈 경우 [], null 아님)",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "gpu-cluster-queue"
+          ]
+        },
+        "resource_type": {
+          "description": "주요 리소스 타입",
+          "type": "string",
+          "enum": [
+            "gpu",
+            "cpu",
+            "memory"
+          ],
+          "example": "gpu"
+        },
+        "system_cpu_cores": {
+          "description": "Kueue 비관리 시스템 Pod의 CPU 사용량 (코어)",
+          "type": "integer",
+          "example": 50
+        },
+        "system_memory_gb": {
+          "description": "Kueue 비관리 시스템 Pod의 메모리 사용량 (GB)",
+          "type": "integer",
+          "example": 94
+        },
+        "total_capacity": {
+          "description": "주요 리소스 총 용량 (표시 단위)",
+          "type": "integer",
+          "example": 4
+        },
+        "utilization_rate": {
+          "description": "주요 리소스 사용률 (%)",
+          "type": "number",
+          "example": 25
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUDeviceMetric": {
+      "description": "단일 GPU 장치 메트릭",
+      "type": "object",
+      "required": [
+        "gpu",
+        "hostname",
+        "memory_utilization",
+        "power_usage",
+        "temperature",
+        "utilization"
+      ],
+      "properties": {
+        "gpu": {
+          "description": "GPU 인덱스/식별자",
+          "type": "string",
+          "example": "0"
+        },
+        "hostname": {
+          "description": "노드 호스트명",
+          "type": "string",
+          "example": "gpu-node-01"
+        },
+        "memory_utilization": {
+          "description": "메모리 활용도(%)",
+          "type": "number",
+          "example": 62
+        },
+        "model_name": {
+          "description": "모델명 (비어 있으면 JSON에서 생략)",
+          "type": "string",
+          "example": "NVIDIA A100-SXM4-40GB"
+        },
+        "power_usage": {
+          "description": "전력(W)",
+          "type": "number",
+          "example": 285
+        },
+        "temperature": {
+          "description": "온도(°C)",
+          "type": "number",
+          "example": 71
+        },
+        "utilization": {
+          "description": "활용도(%)",
+          "type": "number",
+          "example": 81
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUMetricsResult": {
+      "description": "GPU 장치별·평균 활용도(Prometheus)",
+      "type": "object",
+      "required": [
+        "avg_memory_utilization",
+        "avg_temperature",
+        "avg_utilization",
+        "devices",
+        "timestamp"
+      ],
+      "properties": {
+        "avg_memory_utilization": {
+          "description": "평균 메모리 활용도(%)",
+          "type": "number",
+          "example": 55
+        },
+        "avg_temperature": {
+          "description": "평균 온도(°C)",
+          "type": "number",
+          "example": 68
+        },
+        "avg_utilization": {
+          "description": "평균 GPU 활용도(%)",
+          "type": "number",
+          "example": 72.5
+        },
+        "devices": {
+          "description": "장치별 지표 (빈 경우 [], null 아님)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUDeviceMetric"
+          }
+        },
+        "timestamp": {
+          "description": "응답 생성 시각(RFC3339)",
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-04-22T09:30:00Z"
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUResources": {
+      "description": "표준 GPU와 MIG 맵",
+      "type": "object",
+      "required": [
+        "mig",
+        "standard"
+      ],
+      "properties": {
+        "mig": {
+          "description": "MIG 리소스 키 → 메트릭 (빈 경우 {}, null 아님)",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.MIGResourceMetrics"
+          }
+        },
+        "standard": {
+          "description": "전체 장치 가속기(nvidia.com/gpu, rebellions.ai/npu) 집계",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUTypeInfo"
+            }
+          ]
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUTrendPoint": {
+      "description": "GPU 트렌드 단일 시점",
+      "type": "object",
+      "required": [
+        "time",
+        "value"
+      ],
+      "properties": {
+        "time": {
+          "description": "시각(RFC3339)",
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-04-22T08:15:00Z"
+        },
+        "value": {
+          "description": "활용도 값(%)",
+          "type": "number",
+          "example": 68.4
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUTrendsResult": {
+      "description": "GPU 활용도 시계열 트렌드",
+      "type": "object",
+      "required": [
+        "data_points",
+        "duration",
+        "timestamp"
+      ],
+      "properties": {
+        "data_points": {
+          "description": "시계열 포인트 (빈 경우 [], null 아님)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUTrendPoint"
+          }
+        },
+        "duration": {
+          "description": "조회 기간 토큰",
+          "type": "string",
+          "enum": [
+            "30m",
+            "1h",
+            "6h",
+            "24h",
+            "7d",
+            "30d"
+          ],
+          "example": "24h"
+        },
+        "timestamp": {
+          "description": "응답 생성 시각(RFC3339)",
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-04-22T09:30:00Z"
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUTypeInfo": {
+      "description": "표준(전체 장치) 가속기 집계 한 종류 (nvidia.com/gpu, rebellions.ai/npu)",
+      "type": "object",
+      "required": [
+        "available",
+        "inUse",
+        "memory",
+        "total",
+        "type"
+      ],
+      "properties": {
+        "available": {
+          "description": "사용 가능(미사용) 개수",
+          "type": "integer",
+          "format": "int32",
+          "example": 3
+        },
+        "inUse": {
+          "description": "실행 중 파드가 요청한 개수",
+          "type": "integer",
+          "format": "int32",
+          "example": 5
+        },
+        "memory": {
+          "description": "대표 메모리 용량 표기 (예: 80Gi)",
+          "type": "string",
+          "example": "80Gi"
+        },
+        "total": {
+          "description": "클러스터 전체 할당 가능 개수",
+          "type": "integer",
+          "format": "int32",
+          "example": 8
+        },
+        "type": {
+          "description": "리소스 식별자/타입 라벨 (nvidia-gpu, rebellions-npu)",
+          "type": "string",
+          "example": "nvidia-gpu"
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.InventorySummary": {
+      "description": "전체 Flavor의 쿼터 기반 리소스 요약 (CQ nominalQuota 합계 기준)",
+      "type": "object",
+      "properties": {
+        "allocated_cpu_cores": {
+          "description": "Kueue 워크로드가 사용 중인 CPU 코어",
+          "type": "integer",
+          "example": 8
+        },
+        "allocated_gpus": {
+          "description": "Kueue 워크로드가 사용 중인 GPU",
+          "type": "integer",
+          "example": 1
+        },
+        "allocated_memory_gb": {
+          "description": "Kueue 워크로드가 사용 중인 메모리 (GB)",
+          "type": "integer",
+          "example": 32
+        },
+        "available_cpu_cores": {
+          "description": "가용 CPU 코어 (쿼터 - 할당)",
+          "type": "integer",
+          "example": 24
+        },
+        "available_gpus": {
+          "description": "가용 GPU (쿼터 - 할당)",
+          "type": "integer",
+          "example": 3
+        },
+        "available_memory_gb": {
+          "description": "가용 메모리 (쿼터 - 할당, GB)",
+          "type": "integer",
+          "example": 155
+        },
+        "cpu_utilization": {
+          "description": "CPU 사용률 (%)",
+          "type": "number",
+          "example": 25
+        },
+        "gpu_utilization": {
+          "description": "GPU 사용률 (%)",
+          "type": "number",
+          "example": 25
+        },
+        "memory_utilization": {
+          "description": "메모리 사용률 (%)",
+          "type": "number",
+          "example": 17.11
+        },
+        "total_cpu_cores": {
+          "description": "쿼터 기준 총 CPU 코어",
+          "type": "integer",
+          "example": 32
+        },
+        "total_flavors": {
+          "description": "등록된 ResourceFlavor 수",
+          "type": "integer",
+          "example": 1
+        },
+        "total_gpus": {
+          "description": "쿼터 기준 총 GPU 수",
+          "type": "integer",
+          "example": 4
+        },
+        "total_memory_gb": {
+          "description": "쿼터 기준 총 메모리 (GB)",
+          "type": "integer",
+          "example": 187
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.MIGResourceInfo": {
+      "description": "MIG 프로파일 리소스 키 파싱 결과",
+      "type": "object",
+      "required": [
+        "fullName",
+        "gpuSlices",
+        "memorySlice",
+        "profile"
+      ],
+      "properties": {
+        "fullName": {
+          "description": "Kubernetes 리소스 전체 이름 (예: nvidia.com/mig-3g.20gb)",
+          "type": "string",
+          "example": "nvidia.com/mig-3g.20gb"
+        },
+        "gpuSlices": {
+          "description": "GPU 슬라이스 수 (미파싱 시 0)",
+          "type": "integer",
+          "format": "int32",
+          "example": 0
+        },
+        "memorySlice": {
+          "description": "메모리 슬라이스 (미파싱 시 0)",
+          "type": "integer",
+          "format": "int32",
+          "example": 0
+        },
+        "profile": {
+          "description": "nvidia.com/ 접두사를 뺀 프로파일 경로",
+          "type": "string",
+          "example": "mig-3g.20gb"
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.MIGResourceMetrics": {
+      "description": "MIG 리소스별 총량·사용·가용 및 메타",
+      "type": "object",
+      "required": [
+        "available",
+        "inUse",
+        "info",
+        "total"
+      ],
+      "properties": {
+        "available": {
+          "description": "Total - InUse",
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        },
+        "inUse": {
+          "description": "실행 중 요청 합계",
+          "type": "integer",
+          "format": "int32",
+          "example": 6
+        },
+        "info": {
+          "description": "해당 MIG 키에 대한 설명 정보",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.MIGResourceInfo"
+            }
+          ]
+        },
+        "total": {
+          "description": "노드 allocatable 기준 총량",
+          "type": "integer",
+          "format": "int32",
+          "example": 16
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ResourceAvailability": {
+      "description": "클러스터 리소스 가용성 스냅샷 (노드·파드 기준)",
+      "type": "object",
+      "required": [
+        "cpu",
+        "gpus",
+        "memory",
+        "timestamp"
+      ],
+      "properties": {
+        "cpu": {
+          "description": "CPU allocatable / 사용 / 잔여",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ResourceMetric"
+            }
+          ]
+        },
+        "gpus": {
+          "description": "GPU 표준 및 MIG",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUResources"
+            }
+          ]
+        },
+        "memory": {
+          "description": "메모리 allocatable / 사용 / 잔여",
+          "allOf": [
+            {
+              "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ResourceMetric"
+            }
+          ]
+        },
+        "timestamp": {
+          "description": "수집 시각 (Unix 초)",
+          "type": "integer",
+          "format": "int64",
+          "example": 1713787200
+        }
+      }
+    },
+    "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ResourceMetric": {
+      "description": "CPU 또는 메모리 allocatable/사용/가용 (Kubernetes quantity 문자열)",
+      "type": "object",
+      "required": [
+        "available",
+        "inUse",
+        "total"
+      ],
+      "properties": {
+        "available": {
+          "description": "Total − InUse 문자열",
+          "type": "string",
+          "example": "13500m"
+        },
+        "inUse": {
+          "description": "Running 파드 requests 합계 문자열",
+          "type": "string",
+          "example": "18500m"
+        },
+        "total": {
+          "description": "클러스터 allocatable 합계 문자열",
+          "type": "string",
+          "example": "32000m"
+        }
+      }
+    },
     "github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_metering.APIKeyActivityBucket": {
       "type": "object",
       "properties": {
@@ -3605,6 +4313,165 @@
           "description": "사용자 ID",
           "type": "string",
           "example": "user-abc123"
+        }
+      }
+    },
+    "internal_server_handler_kueue.ClusterMetricsGPUDataResponse": {
+      "description": "GPU 메트릭 결과",
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUMetricsResult"
+        }
+      }
+    },
+    "internal_server_handler_kueue.ClusterMetricsGPUTrendsDataResponse": {
+      "description": "GPU 트렌드 시계열",
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.GPUTrendsResult"
+        }
+      }
+    },
+    "internal_server_handler_kueue.ClusterWideMetricsDataResponse": {
+      "description": "ClusterMetricsResult",
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ClusterMetricsResult"
+        }
+      }
+    },
+    "internal_server_handler_kueue.KueueHealthComponents": {
+      "description": "kubernetes(connected|unavailable|unknown), kueue(connected|not_installed|unavailable|unknown), database(connected|unhealthy|disabled) 프로브 결과",
+      "type": "object",
+      "required": [
+        "database",
+        "kubernetes",
+        "kueue"
+      ],
+      "properties": {
+        "database": {
+          "type": "string",
+          "enum": [
+            "connected",
+            "unhealthy",
+            "disabled"
+          ],
+          "example": "connected"
+        },
+        "kubernetes": {
+          "type": "string",
+          "enum": [
+            "connected",
+            "unavailable",
+            "unknown"
+          ],
+          "example": "connected"
+        },
+        "kueue": {
+          "type": "string",
+          "enum": [
+            "connected",
+            "not_installed",
+            "unavailable",
+            "unknown"
+          ],
+          "example": "not_installed"
+        }
+      }
+    },
+    "internal_server_handler_kueue.KueueHealthResponse": {
+      "description": "status/timestamp/version/components를 포함한 상태 응답. status는 database/kubernetes 프로브만 반영(healthy|degraded), version은 빌드 시 스탬프된 값",
+      "type": "object",
+      "required": [
+        "components",
+        "status",
+        "timestamp",
+        "version"
+      ],
+      "properties": {
+        "components": {
+          "$ref": "#/definitions/internal_server_handler_kueue.KueueHealthComponents"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "healthy",
+            "degraded"
+          ],
+          "example": "healthy"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1716700000
+        },
+        "version": {
+          "type": "string",
+          "example": "v0.9.1"
+        }
+      }
+    },
+    "internal_server_handler_kueue.ResourceAvailabilityDataResponse": {
+      "description": "ResourceAvailability",
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.ResourceAvailability"
+        }
+      }
+    },
+    "internal_server_handler_kueue.ResourceInventoryDataPayload": {
+      "description": "Flavor 목록 + 페이지네이션 메타 + 글로벌 요약",
+      "type": "object",
+      "required": [
+        "flavors",
+        "lastUpdated",
+        "page",
+        "page_size",
+        "summary",
+        "total"
+      ],
+      "properties": {
+        "flavors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.FlavorInventory"
+          }
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2026-04-22T10:00:00Z"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        },
+        "summary": {
+          "$ref": "#/definitions/github_com_ThakiCloud_ai-platform-webui_ai-platform_backend_go_internal_server_service_kueue.InventorySummary"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "example": 42
+        }
+      }
+    },
+    "internal_server_handler_kueue.ResourceInventoryDataResponse": {
+      "description": "리소스 인벤토리 데이터 (필터링 + 페이지네이션)",
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/internal_server_handler_kueue.ResourceInventoryDataPayload"
         }
       }
     },
@@ -9826,6 +10693,323 @@
           "resourceIdParam": "endpoint_id",
           "resourceIdSource": "path",
           "resourceType": "AdminEndpoint"
+        }
+      }
+    },
+    "/api/v1/metis/admin/kueue/health": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Kueue 구성요소 상태를 실제 프로브로 보고합니다. database는 ping, kubernetes는 API 서버 discovery, kueue는 kueue.x-k8s.io API 그룹 제공 여부를 확인합니다. Kueue CRD는 스포크 클러스터에 설치되므로 허브에서는 kueue=not_installed가 정상이며, 전체 status(healthy/degraded)는 database/kubernetes 프로브 결과만 반영합니다. version은 빌드 시점에 스탬프된 값입니다.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Infrastructure Monitoring"
+        ],
+        "summary": "Kueue 헬스 체크",
+        "responses": {
+          "200": {
+            "description": "Kueue 헬스 상태",
+            "schema": {
+              "$ref": "#/definitions/internal_server_handler_kueue.KueueHealthResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metis/admin/kueue/metrics/cluster": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "클러스터 리소스 사용량 및 노드 상태 반환. cluster 지정 시 해당 클러스터, 미지정 시 전체 클러스터 집계",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Infrastructure Monitoring"
+        ],
+        "summary": "클러스터 메트릭 조회",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "시간 윈도우 (1h, 6h, 24h, 7d)",
+            "name": "timeWindow",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "대상 클러스터 ID (UUID 또는 2-세그먼트 hex, metis-fabric). 미지정 시 전체 클러스터 집계",
+            "name": "cluster",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "클러스터 메트릭",
+            "schema": {
+              "$ref": "#/definitions/internal_server_handler_kueue.ClusterWideMetricsDataResponse"
+            }
+          },
+          "400": {
+            "description": "잘못된 timeWindow 또는 클러스터 ID",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "서버 오류",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "K8s 사용 불가",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          }
+        },
+        "x-thaki-trn": {
+          "resourceType": "KueueMetric"
+        }
+      }
+    },
+    "/api/v1/metis/admin/kueue/metrics/gpu-trends": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "기간별 GPU 활용도 트렌드를 반환합니다.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Infrastructure Monitoring"
+        ],
+        "summary": "GPU 트렌드 조회",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "1h",
+            "description": "기간 (1h, 6h, 24h, 7d)",
+            "name": "duration",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GPU 트렌드",
+            "schema": {
+              "$ref": "#/definitions/internal_server_handler_kueue.ClusterMetricsGPUTrendsDataResponse"
+            }
+          },
+          "400": {
+            "description": "잘못된 기간",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "서버 오류",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Prometheus/K8s 사용 불가",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          }
+        },
+        "x-thaki-trn": {
+          "resourceType": "KueueClusterMetrics"
+        }
+      }
+    },
+    "/api/v1/metis/admin/kueue/metrics/gpu-utilization": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Prometheus 가속기 메트릭(NVIDIA DCGM / Rebellions NPU)에서 장치별 활용도를 조회합니다.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Infrastructure Monitoring"
+        ],
+        "summary": "GPU 활용도 조회",
+        "responses": {
+          "200": {
+            "description": "GPU 메트릭",
+            "schema": {
+              "$ref": "#/definitions/internal_server_handler_kueue.ClusterMetricsGPUDataResponse"
+            }
+          },
+          "500": {
+            "description": "서버 오류",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "Prometheus/K8s 사용 불가",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          }
+        },
+        "x-thaki-trn": {
+          "resourceType": "KueueClusterMetrics"
+        }
+      }
+    },
+    "/api/v1/metis/admin/kueue/resource-inventory": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "ResourceFlavor별 노드 용량, Kueue 워크로드 사용량, 시스템 Pod 오버헤드, CQ 쿼터 정보를 반환합니다. 필터링 및 페이지네이션을 지원합니다.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Infrastructure Monitoring"
+        ],
+        "summary": "리소스 인벤토리 조회",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Flavor 이름 필터 (부분 일치)",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "enum": [
+              "gpu",
+              "cpu",
+              "memory"
+            ],
+            "type": "string",
+            "description": "리소스 타입 필터",
+            "name": "resource_type",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "default": 1,
+            "description": "페이지 번호 (기본값 1)",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer",
+            "default": 10,
+            "description": "페이지 크기 (기본값 10, 최대 500)",
+            "name": "page_size",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "format": "uuid",
+            "description": "대상 클러스터 ID (UUID, metis-fabric). 미지정 시 기본 클러스터",
+            "name": "cluster",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "리소스 인벤토리",
+            "schema": {
+              "$ref": "#/definitions/internal_server_handler_kueue.ResourceInventoryDataResponse"
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "서버 오류",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          }
+        },
+        "x-thaki-trn": {
+          "resourceType": "KueueClusterQueue"
+        }
+      }
+    },
+    "/api/v1/metis/admin/kueue/resources/availability": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "CPU/메모리/GPU 리소스 가용량 반환. cluster 지정 시 해당 클러스터, 미지정 시 전체 클러스터 집계",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Infrastructure Monitoring"
+        ],
+        "summary": "클러스터 리소스 가용량 조회",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "대상 클러스터 ID (UUID 또는 2-세그먼트 hex, metis-fabric). 미지정 시 전체 클러스터 집계",
+            "name": "cluster",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "리소스 가용량",
+            "schema": {
+              "$ref": "#/definitions/internal_server_handler_kueue.ResourceAvailabilityDataResponse"
+            }
+          },
+          "400": {
+            "description": "잘못된 클러스터 ID",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "서버 오류",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          },
+          "503": {
+            "description": "K8s 사용 불가",
+            "schema": {
+              "$ref": "#/definitions/common.ErrorResponse"
+            }
+          }
+        },
+        "x-thaki-trn": {
+          "resourceType": "KueueResource"
         }
       }
     },

@@ -69,8 +69,10 @@ Rebellions NPU 를 함께 분류합니다.
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \
-  "https://<your-console-host>/api/v1/metis/admin/kueue/resource-inventory"
+  "https://<your-console-host>/api/v1/metis/admin/kueue/resource-inventory?cluster=<your-cluster-id>"
 ```
+
+`cluster` 는 생략하지 마세요. 빼면 이 경로가 `500` 을 돌려줍니다.
 
 활용도 조회도 두 가속기를 함께 읽습니다 — [인프라 모니터링 API](/admin/monitoring/api).
 

@@ -9,7 +9,7 @@ title: 프롬프트 전송·로그 보기
 
 ## 프롬프트 전송
 
-<!-- SCREENSHOT: serverless-prompt-panel -->
+![프롬프트 전송 패널](/images/inference/serverless-prompt-panel.png)
 
 [엔드포인트 조회](/inference/serverless/list) 목록에서 행의 액션 메뉴를 열고 프롬프트
 전송을 선택하면 요청을 보내고 응답을 바로 확인할 수 있는 패널이 열립니다. 새로 만든
@@ -26,9 +26,17 @@ title: 프롬프트 전송·로그 보기
 
 ## 로그 보기
 
-<!-- SCREENSHOT: serverless-logs-panel -->
+![로그 보기 패널](/images/inference/serverless-logs-panel.png)
 
 같은 액션 메뉴의 로그 보기를 선택하면 그 엔드포인트 컨테이너의 로그를 확인할 수 있습니다.
+패널은 두 갈래로 나뉩니다. 파드 이벤트·진단은 스케줄링과 기동 과정을 보여주고, 컨테이너
+로그는 서빙 프로세스가 표준 출력으로 남긴 것을 보여줍니다. 최근 1,000건까지 표시합니다.
+
+::: warning 비어 있을 수 있습니다
+로그는 파드가 살아 있는 동안에만 남습니다. 요청이 없어 0으로 축소된 엔드포인트나 방금
+기동한 엔드포인트는 두 탭이 모두 비어 보일 수 있습니다 —
+[콜드 스타트와 Scale-to-Zero](/guide/inference/cold-start)를 함께 보세요.
+:::
 `failed` 상태이거나 프롬프트 전송에서 기대한 응답이 안 나올 때, 원인을 찾는 첫 걸음이
 이 화면입니다. 모델 로딩 실패, 메모리 부족, 시작 인자 오류 같은 문제가 대체로 여기 로그에
 남습니다.

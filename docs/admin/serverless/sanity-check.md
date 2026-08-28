@@ -9,7 +9,10 @@ Sanity Check 는 엔드포인트가 실제로 응답하는지 확인하는 가�
 `/v1/chat/completions` 를 호출해 보지 않아도, 그 엔드포인트가 살아 있는지 화면에서 바로
 알 수 있습니다.
 
-<!-- SCREENSHOT: admin-endpoint-sanity-check -->
+::: tip 이 환경에는 콘솔 화면이 없습니다
+관리자 앱의 엔드포인트 행 액션 메뉴에는 Sanity Check 항목이 없습니다. 아래 API 로만
+실행합니다 — 동작은 정상이며, 이 페이지의 응답 예시는 실제 실행 결과입니다.
+:::
 
 ## 트리거하기
 
@@ -22,6 +25,20 @@ curl -X POST -H "Authorization: Bearer $TOKEN" \
 
 `prompt` 는 선택입니다. 생략하면 표준 인사말로 보냅니다. 응답(201)에는 그 실행 결과가
 그대로 담깁니다.
+
+```json
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "endpoint_id": "00000000-0000-0000-0000-000000000000",
+  "status": "passed",
+  "prompt": "안녕",
+  "response_text": "하세요. 저는 ...",
+  "latency_ms": 899,
+  "triggered_by": "domain.admin",
+  "created_at": 1787901275,
+  "updated_at": 1787901276
+}
+```
 
 | 필드 | 설명 |
 |---|---|

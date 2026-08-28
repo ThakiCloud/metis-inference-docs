@@ -30,7 +30,7 @@ title: 워크로드
 워크로드 상세에서 실행 중인 파드에 직접 터미널로 접속할 수 있습니다. 로그만으로 원인을
 찾기 어려운 문제를 파드 안에서 직접 확인하고 싶을 때 씁니다.
 
-<!-- SCREENSHOT: workloads-terminal -->
+![워크로드 파드 터미널](/images/inference/workloads-terminal.png)
 
 ## 다음
 

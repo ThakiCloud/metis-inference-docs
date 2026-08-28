@@ -27,6 +27,8 @@ const RULES = [
   [/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, '00000000-0000-0000-0000-000000000000'],
   [/\b[0-9a-f]{8}-[0-9a-f]{4}\b/gi, 'cluster-01'],
   [/\bproject-[0-9a-f-]{8,}\b/gi, 'project-example'],
+  [/\b[0-9a-f]{12}\b/gi, 'pod00000000'],
+  [/-[0-9a-f]{8}-[0-9a-f]{6,12}\b/gi, '-pod00000000'],
   [/\bETRI\b/g, 'ACME'], [/etri/gi, 'acme'], [/\btkai\b/gi, 'platform'],
 ]
 
@@ -143,8 +145,23 @@ async function shoot(page, slug, sub, markers) {
 }
 
 async function nav(page, label) {
-  await page.locator('aside, nav').locator(`text="${label}"`).first().click({ force: true, timeout: 15000 })
-  await page.waitForTimeout(3500)
+  // 열린 드로어가 사이드바를 덮으면 클릭이 30초를 기다리다 죽는다 — 먼저 치운다.
+  let lastErr
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      await page.locator('aside, nav').locator(`text="${label}"`).first().click({ force: true, timeout: 8000 })
+      await page.waitForTimeout(3500)
+      return
+    } catch (e) {
+      lastErr = e
+      for (const sel of ['button:has-text("Cancel")', 'button:has-text("Close")']) {
+        const b = page.locator(sel).last()
+        if (await b.count()) { await b.click({ force: true }).catch(() => {}); break }
+      }
+      await page.waitForTimeout(2000)
+    }
+  }
+  throw lastErr
 }
 
 async function openApp(page, name, admin = false) {
@@ -199,6 +216,30 @@ const drawerRect = (page, title) =>
   findRect(page, { contains: [title, 'Cancel'], minW: 300, maxW: 800, minH: 400 })
 
 const TABLE = 'table'
+const E_EP = process.env.E_EP || ''
+
+/** 캡처 대상 행. E_EP 가 있으면 그 이름의 행, 없으면 첫 행. */
+async function targetRow(page) {
+  const rows = page.locator('table tbody tr')
+  if (E_EP) {
+    const n = await rows.count()
+    for (let i = 0; i < n; i++) {
+      const name = (await rows.nth(i).locator('td').nth(2).innerText()).split('\n')[0].trim()
+      if (name === E_EP) return rows.nth(i)
+    }
+    console.log(`    (E_EP=${E_EP} 인 행이 없어 첫 행을 쓴다)`)
+  }
+  return rows.first()
+}
+
+/** 드로어는 Escape 가 안 먹는다 — Cancel 버튼으로 닫는다. */
+async function closeDrawer(page) {
+  for (const sel of ['button:has-text("Cancel")', 'button:has-text("Close")']) {
+    const b = page.locator(sel).last()
+    if (await b.count()) { await b.click({ force: true }).catch(() => {}); break }
+  }
+  await page.waitForTimeout(1800)
+}
 
 const browser = await chromium.launch()
 const context = await browser.newContext({ viewport: { width: 1600, height: 1000 }, colorScheme: 'light', deviceScaleFactor: 2 })
@@ -248,7 +289,7 @@ if (want('serverless-create-vllm-rbln')) {
 
 if (want('serverless-action-menu') || want('serverless-service-url-panel')) {
   await nav(page, 'Rebellions')
-  await page.locator('table tbody tr').first().locator('td').last().locator('button').first().click()
+  await (await targetRow(page)).locator('td').last().locator('button').first().click()
   await page.waitForTimeout(1500)
   if (want('serverless-action-menu')) {
     await shoot(page, 'serverless-action-menu', 'inference', [
@@ -268,6 +309,64 @@ if (want('serverless-action-menu') || want('serverless-service-url-panel')) {
       await page.keyboard.press('Escape'); await page.waitForTimeout(1200)
     } catch (e) { console.log('  SKIP service-url:', e.message.split('\n')[0].slice(0, 70)) }
   }
+}
+
+// 프롬프트 전송 · 로그 보기 — 실행 중인 엔드포인트가 있어야 메뉴 항목이 열린다.
+for (const [slug, item, title] of [
+  ['serverless-prompt-panel', /send\s*prompt/i, 'Send prompt'],
+  ['serverless-logs-panel', /view\s*logs/i, 'Logs'],
+]) {
+  if (!want(slug)) continue
+  try {
+    await nav(page, 'Rebellions')
+    await (await targetRow(page)).locator('td').last().locator('button').first().click()
+    await page.waitForTimeout(1600)
+    await page.getByRole('menuitem').filter({ hasText: item }).first().click()
+    await page.waitForTimeout(5000)
+    if (slug === 'serverless-logs-panel') {
+      const tab = page.locator('button:has-text("Container logs")').last()
+      if (await tab.count()) { await tab.click({ force: true }).catch(() => {}); await page.waitForTimeout(5000) }
+    }
+    const drawer = await drawerRect(page, title)
+    const markers = [{ n: 1, rect: drawer, badgePos: 'left' }]
+    if (slug === 'serverless-prompt-panel') {
+      markers.push({ n: 2, selector: 'textarea', dashed: true, badgePos: 'left' })
+      markers.push({ n: 3, rect: await findRect(page, { contains: ['Max Tokens', 'Temperature', 'Top P'], minW: 180, maxW: 760, minH: 60, maxH: 900, within: drawer }), dashed: true, badgePos: 'left' })
+      markers.push({ n: 4, selector: 'button:has-text("Send")', dashed: true, badgePos: 'left' })
+    } else {
+      markers.push({ n: 2, rect: await findRect(page, { contains: ['Name', 'Status'], minW: 180, maxW: 760, minH: 40, maxH: 220, within: drawer }), dashed: true, badgePos: 'left' })
+      markers.push({ n: 3, rect: await findRect(page, { contains: ['Pod events', 'Container logs'], minW: 180, maxW: 700, minH: 24, maxH: 130, within: drawer }), dashed: true, badgePos: 'left' })
+    }
+    await shoot(page, slug, 'inference', markers)
+    await closeDrawer(page)
+  } catch (e) {
+    console.log(`  SKIP ${slug}: ${e.message.split('\n')[0].slice(0, 80)}`)
+    if (process.env.DEBUG_SHOT) {
+      await page.screenshot({ path: `/tmp/fail-${slug}.png` })
+      console.log('    URL:', page.url())
+      console.log('    BODY:', (await page.locator('body').innerText()).split('\n').map(x=>x.trim()).filter(Boolean).slice(28,60).join(' | ').slice(0,400))
+    }
+    await closeDrawer(page)
+  }
+}
+
+// 워크로드 터미널 — running 상태의 행에서만 열린다.
+if (want('workloads-terminal')) {
+  try {
+    await nav(page, 'Workloads')
+    const rows = page.locator('table tbody tr')
+    let idx = -1
+    const n = await rows.count()
+    for (let i = 0; i < n; i++) if (/running/i.test(await rows.nth(i).innerText())) { idx = i; break }
+    if (idx < 0) throw new Error('running 상태 워크로드가 없다')
+    await rows.nth(idx).locator('td').last().locator('button').first().click()
+    await page.waitForTimeout(1600)
+    await page.getByRole('menuitem').filter({ hasText: /^\s*terminal\s*$/i }).first().click()
+    await page.waitForTimeout(9000)
+    await shoot(page, 'workloads-terminal', 'inference', [
+      { n: 1, rect: await findRect(page, { contains: ['Connected|Disconnected'], minW: 600, minH: 260 }) },
+    ])
+  } catch (e) { console.log(`  SKIP workloads-terminal: ${e.message.split('\n')[0].slice(0, 80)}`) }
 }
 
 console.log('\n[Admin AI Inference]')

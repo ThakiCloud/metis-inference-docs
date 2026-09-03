@@ -6,18 +6,39 @@
  * 이 문서의 범위가 아니다. 큐레이션 없이 통째로 렌더하면 독자가 추론에 필요한
  * 것을 찾지 못한다.
  *
+ * 이 문서는 ETRI 데모 환경 기준이다 — 스펙에 선언돼 있어도 그 환경에 배포되지
+ * 않은 오퍼레이션은 "불필요한 API"로 취급해 제외한다. Batch(배치 추론)와
+ * Workloads 의 port-forward 3종은 2026-09-04 `scripts/demo/etri_spec_probe.py`
+ * 실측에서 `{"error":"NOT_FOUND","message":"Cannot GET ..."}`로 확인됐다 —
+ * 리소스가 없어서가 아니라(권한/빈 목록이면 401/200) **라우트 자체가 서버에
+ * 없다.** 문서에 있는데 실서버가 404를 주면 독자가 못 쓰는 API를 읽게 된다.
+ *
  * 이 스크립트가 게이트를 겸한다 — 결과 operation 수가 기대치와 다르면 exit 1.
  * 포맷·집계를 모델이 아니라 코드가 소유한다.
  *
- *   node scripts/filter-openapi.mjs <source.json> [--out <path>] [--expect 160]
+ *   node scripts/filter-openapi.mjs <source.json> [--out <path>] [--expect 158]
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 
 const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch', 'head', 'options']
 
-/** 제외할 태그 접두사. 큐 스케줄링 관리는 이 문서의 범위가 아니다(사용자 확정 2026-08-25). */
-const EXCLUDED_TAG_PREFIXES = ['Kueue']
+/**
+ * 제외할 태그 접두사.
+ * - Kueue: 큐 스케줄링 관리는 이 문서의 범위가 아니다(사용자 확정 2026-08-25).
+ * - Batch: 배치 추론 API 전체가 ETRI 환경에 배포돼 있지 않다(2026-09-04 실측).
+ */
+const EXCLUDED_TAG_PREFIXES = ['Kueue', 'Batch']
+
+/**
+ * 태그와 무관하게 경로 단위로 제외한다. Workloads 태그 안의 port-forward 3종만
+ * ETRI 환경에 없어서(2026-09-04 실측), 태그 전체가 아니라 이 경로만 뺀다.
+ */
+const EXCLUDED_PATHS = new Set([
+  '/api/v1/metis/projects/{project_id}/workloads/{id}/port-forward/start',
+  '/api/v1/metis/projects/{project_id}/workloads/{id}/port-forward/status',
+  '/api/v1/metis/projects/{project_id}/workloads/{id}/port-forward/stop',
+])
 
 /**
  * 태그가 제외 대상이어도 되살리는 경로.
@@ -69,6 +90,10 @@ for (const [path, item] of Object.entries(spec.paths ?? {})) {
       continue
     }
     const tag = (op.tags ?? ['<none>'])[0]
+    if (EXCLUDED_PATHS.has(path)) {
+      dropped++
+      continue
+    }
     if (isExcluded(tag) && !INCLUDED_PATHS.has(path)) {
       dropped++
       continue
@@ -157,7 +182,9 @@ writeFileSync(outPath, JSON.stringify(out, null, 2) + '\n')
 const tagReport = [...keptTags.entries()].sort((a, b) => b[1] - a[1])
 console.log(`source     : ${source}`)
 console.log(`out        : ${outPath}`)
-console.log(`operations : kept ${kept}, dropped ${dropped} (${EXCLUDED_TAG_PREFIXES.join(', ')})`)
+console.log(
+  `operations : kept ${kept}, dropped ${dropped} (tags: ${EXCLUDED_TAG_PREFIXES.join(', ')}; paths: ${EXCLUDED_PATHS.size})`,
+)
 console.log(`tags       : ${tagReport.length}`)
 console.log(`definitions: ${Object.keys(definitions).length} / ${Object.keys(allDefs).length}`)
 if (emptyTags.length > 0) {

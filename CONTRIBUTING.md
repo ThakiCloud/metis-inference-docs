@@ -68,7 +68,7 @@ ROLE=admin npm run capture   # 관리자 화면
 스펙은 손으로 고치지 않습니다. 플랫폼 Swagger 를 받아 필터를 다시 돌립니다.
 
 ```bash
-npm run spec:filter -- spec/metis-swagger-source.json --expect 166
+npm run spec:filter -- spec/metis-swagger-source.json --expect 158
 ```
 
 오퍼레이션 수가 달라지면 게이트가 막습니다. 숫자를 조용히 맞추지 말고, 무엇이 늘고 줄었는지
@@ -77,7 +77,7 @@ npm run spec:filter -- spec/metis-swagger-source.json --expect 166
 ## 보내기 전에
 
 ```bash
-npm run spec:filter -- spec/metis-swagger-source.json --expect 166
+npm run spec:filter -- spec/metis-swagger-source.json --expect 158
 npm run check:secrets
 npm run check:shots
 npm run docs:build

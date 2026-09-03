@@ -14,8 +14,10 @@ Rebellions NPU 로 모델을 서빙할 때는 GPU 와 규칙이 몇 가지 다�
 POST /api/v1/metis/projects/{project_id}/endpoints/vllm-rbln
 ```
 
-범용 생성 경로(`POST .../endpoints`)에 `workload_type: "VLLM_RBLN"` 을 넣는 방식이 아니라,
-NPU 는 자기 경로가 따로 있습니다.
+NPU 는 자기 경로가 따로 있습니다. 범용 생성 경로(`POST .../endpoints`)에
+`workload_type: "VLLM_RBLN"` 을 넣어도 요청 자체는 받아들여지지만, **전용 경로를 쓰세요.**
+전용 경로는 아래 네 가지 제약을 요청 시점에 검사해 어떤 필드가 왜 틀렸는지 알려 줍니다.
+범용 경로는 그 검증을 거치지 않아, 잘못된 조합이 배포 단계까지 가서야 드러납니다.
 
 ## 반드시 지켜야 하는 제약 네 가지
 
